@@ -1,0 +1,34 @@
+1.hive
+2. CREATE EXTERNAL TABLE ext (
+      flight_id STRING,
+      airline STRING,
+      source STRING,
+      destination STRING,
+      departure_time STRING,
+      arrival_time STRING,
+      delay_minutes INT)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES (
+      "hbase.columns.mapping" =
+         ":key,Flight:airline,Flight:source,Flight:destination,Schedule:departure_time,Schedule:arrival_time,Delay:delay_minutes")
+TBLPROPERTIES ("hbase.table.name" = "FlightInfo");
+3.select * from ext
+4.select avg(Delay) from ext;
+5.select sum(delay_minutes) from ext;
+6. create index ind on table ext(delay_minutes)
+> as 'org.apache. hadoop.hive.ql.index.compact. CompactIndexHandler'
+> with deferred rebuild;
+
+
+1.hbase shell
+2.create ‘flight’,’finfo’,’fsch’
+3.put ‘flight’,1,’finfo:source’,’pune’
+4. put ‘flight’,1,’finfo:dest’,’mumbai’
+5. put ‘flight’,1,fsch:dt,10.25 
+Same for ar and delay
+6.scan ‘flight’
+7.create ‘t1’
+8.disable ‘t1’
+9.drop ‘t1’
+10.alter ‘flight’ ,NAME=>’REVENUE’
+11. put ‘flight’,1,’REVENUE:RS’,40000
