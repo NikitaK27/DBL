@@ -1,0 +1,11 @@
+1.	hive
+2.	create external table custmoer_data(cust_id int,cust_name string,ord_id int) row format delimited fields terminated by ',' stored as textfile;
+3.	load data local inpath '/home/cloudera/customer' into table custmoer_data;
+4.	select *from custmoer_data;
+5.	select cust_id,cust_name,order_id,quantity from custmoer_data JOIN order_data ON order_id=ord_id;
+6.	CREATE INDEX data_index
+    > ON TABLE custmoer_data (cust_id) AS 'org.apache.hadoop.hive.ql.index.compact.CompactIndexHandler'
+  >  WITH DEFERRED REBUILD
+    > ;
+7. select sum(quantity*item_price) from order_data JOIN item_data ON item_id=it_id;
+8. select max(quantity*item_price) from order_data JOIN item_data ON item_id=it_id;
